@@ -55,7 +55,10 @@ variable "entryPoint" {
 variable "environment" {
   default     = []
   description = "The environment variables to pass to a container"
-  type        = list(string)
+  type        = list(object({
+    name  = string
+    value = string
+  }))
 }
 
 variable "essential" {
@@ -73,7 +76,6 @@ variable "extraHosts" {
 variable "healthCheck" {
   default     = {}
   description = "The health check command and associated configuration parameters for the container"
-  type        = map(string)
 }
 
 variable "hostname" {
@@ -106,9 +108,19 @@ variable "linuxParameters" {
 }
 
 variable "logConfiguration" {
-  default     = {}
+  default     = {
+    logDriver = "awslogs"
+    options   = {
+      awslogs-region        = "us-west-2"
+      awslogs-group         = "default"
+      awslogs-stream-prefix = "default"
+    }
+  }
   description = "The log configuration specification for the container"
-  type        = map(string)
+  type        = object({
+    logDriver = string
+    options   = map(string)
+  })
 }
 
 variable "memory" {
@@ -137,11 +149,11 @@ variable "name" {
 variable "portMappings" {
   default     = []
   description = "The list of port mappings for the container"
-  type        = list(map(object({
+  type        = list(object({
     containerPort = number
     hostPort      = number
     protocol      = string
-  })))
+  }))
 }
 
 variable "privileged" {
