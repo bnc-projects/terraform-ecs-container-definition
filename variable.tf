@@ -137,7 +137,11 @@ variable "name" {
 variable "portMappings" {
   default     = []
   description = "The list of port mappings for the container"
-  type        = list(string)
+  type        = list(map(object({
+    containerPort = number
+    hostPort      = number
+    protocol      = string
+  })))
 }
 
 variable "privileged" {

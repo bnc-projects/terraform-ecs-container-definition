@@ -36,12 +36,12 @@ module "container_definition" {
       "splunk-token": var.splunk_token,
       "splunk-url": var.splunk_url
     }
-  },
+  }
   image             = "nginx"
   name              = "nginx"
   memory            = 512
   memoryReservation = 256
-  portMappings: [
+  portMappings = [
     {
       containerPort = 8080
       hostPort      = 0,
